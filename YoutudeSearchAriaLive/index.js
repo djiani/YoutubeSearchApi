@@ -59,12 +59,9 @@ function renderResult(result) {
 function displayYoutubeSearchData(data){
 	//console.log(data.items);
 	console.log(data.items.length);
-	//const results = data.items.map((item, index) => renderResult(item));
-	let htmlResults = `
-		<div class="content">
-  			<p> ${data.items.length} video  of ${searchTerm} were found!</p>
-  		</div>`;
-  	$('.js-search-results').empty().append(htmlResults).prop("hidden", false);
+	const results = data.items.map((item, index) => renderResult(item));
+	let htmlResults = `<h3> ${data.items.length} video  of ${searchTerm} were found!</h3>`;
+  	$('.js-search-results').empty().append(htmlResults+results).prop("hidden", false);
 
 
 }
