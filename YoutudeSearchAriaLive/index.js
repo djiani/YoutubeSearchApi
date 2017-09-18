@@ -1,4 +1,5 @@
 const YOUTUBE_SEARCH_URL = 	"https://www.googleapis.com/youtube/v3/search";
+let searchTerm = "";
 
 /*
 part: identifies the resource properties that should be included in an APi response. 
@@ -46,12 +47,24 @@ function renderResult(result) {
       <p><em>Description:</em>${result.snippet.description}</p>
     </div>
   `;
+ 
+
 }
 
+/*
+	adding aria-live session to region
+	I do not understand why it is not working
+*/
+
 function displayYoutubeSearchData(data){
-	console.log(data.items);
-	const results = data.items.map((item, index) => renderResult(item));
-  	$('.js-search-results').html(results);
+	//console.log(data.items);
+	console.log(data.items.length);
+	//const results = data.items.map((item, index) => renderResult(item));
+	let htmlResults = `
+		<div class="content">
+  			<p> ${data.items.length} video  of ${searchTerm} were found!</p>
+  		</div>`;
+  	$('.js-search-results').empty().append(htmlResults).prop("hidden", false);
 
 
 }
@@ -59,9 +72,10 @@ function displayYoutubeSearchData(data){
 function watchSubmit(){
 	$('.js-search-form').submit(event => {
 		event.preventDefault();
-		console.log("test passed!!");
+		//console.log("test passed!!");
 		const queryTarget = $(event.currentTarget).find(".js-query");
 		const query = queryTarget.val();
+		searchTerm = query;
 		console.log(query);
 		queryTarget.val(""); //clear the search input
 		getDataFromApi(query, displayYoutubeSearchData);
